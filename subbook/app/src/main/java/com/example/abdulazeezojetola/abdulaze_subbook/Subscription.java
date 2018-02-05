@@ -1,9 +1,6 @@
 package com.example.abdulazeezojetola.abdulaze_subbook;
 
-import com.example.abdulazeezojetola.abdulaze_subbook.addSub;
-
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by abdulazeezojetola on 2018-01-30.

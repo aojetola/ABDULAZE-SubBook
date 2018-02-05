@@ -67,10 +67,6 @@ public class subAdapter extends ArrayAdapter<Subscription>{
 
         //create extra strings to pass through to editSub class to use for existing subscriptions
 
-        String subscriptionName = getItem(pos).getSubName();
-        String subscriptionDate = getItem(pos).getSubDate();
-        double subscriptionCharge = getItem(pos).getSubPrice();
-        String subscriptionComment = getItem(pos).getSubComment();
 
         //add the current item descriptions with the intent to be called conditionally in addSubActivity class
         editThisSub.putExtra("sub_pos", pos);

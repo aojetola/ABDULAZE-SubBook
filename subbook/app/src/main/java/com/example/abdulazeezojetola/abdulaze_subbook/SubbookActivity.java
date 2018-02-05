@@ -70,7 +70,7 @@ public class SubbookActivity extends AppCompatActivity {
 
 
 
-    // When Add subscription button is tapped, open addSub activity
+    // When Add subscription button is tapped, open addSubActivity
 
     public void newSub(View view) {
         Intent newSubPage = new Intent(this, addSubActivity.class);
