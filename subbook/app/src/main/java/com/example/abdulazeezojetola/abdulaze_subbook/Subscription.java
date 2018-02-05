@@ -6,8 +6,17 @@ import java.io.Serializable;
  * Created by abdulazeezojetola on 2018-01-30.
  */
 
+/*
+*
+*   Class intended to store, return and set the data inputted by the user
+*   and is used by every activity.
+*
+*
+* */
 public class Subscription implements Serializable{
 
+    // subName is the name of the subscription, subDate is the starting date
+    // subPrice is the price and subComment is the comment
     private String subName;
     private String subDate;
     private double subPrice;
@@ -16,7 +25,7 @@ public class Subscription implements Serializable{
     public Subscription(String subName, String subDate, String subComment, double subPrice) {
     }
 
-
+    // Getters and setters to set and return the values of the subscription
     public double getSubPrice(){return this.subPrice;}
 
     public String getSubName() {
@@ -41,7 +50,7 @@ public class Subscription implements Serializable{
     }
 
 
-
+    // this is the format it is printed with in subAdapter
     @Override
     public String toString(){
 

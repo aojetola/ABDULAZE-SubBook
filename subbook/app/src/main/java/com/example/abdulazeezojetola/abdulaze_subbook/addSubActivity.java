@@ -8,7 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/*
+* This class is called from 2 different activities (Subbook when newSub is called) or subAdapter
+* (from the editSub method) along with the putExtra methods to pass on
+* the subscription and the position of the subscription in the ArrayList
+*
+*
+* */
+
 public class addSubActivity extends AppCompatActivity {
+
+    // Declare the EditText variables and the attributes to be put into the Subscription
     public EditText subName;
     public EditText subDate;
     public EditText subComment;
@@ -21,29 +31,38 @@ public class addSubActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Intent editSubIntent = getIntent();
-        Subscription subscription = (Subscription) editSubIntent.getSerializableExtra("sub");
-        int pos = editSubIntent.getIntExtra("sub_pos", 0);
+        // Collect the intent from either subAdapter(taken from editSub) or from newSub()
+        // method taken from Subbook activity (main activity);
+        //
+        Intent SubIntent = getIntent();
 
+        // this subscription could either be Null or an existing subscription for the list
+        Subscription subscription = (Subscription) SubIntent.getSerializableExtra("sub");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
 
-        Button addButton = (Button) findViewById(R.id.addButton);
-        Button removeButton = (Button) findViewById(R.id.removeButton);
-
+        // If the subscription is not null, then set all the edit text values
+        // to the current subscription attributes - name, price, comment etc
 
         if (subscription != null) {
             oldName = subscription.getSubName();
             oldDate = subscription.getSubDate();
             oldPrice = subscription.getSubPrice();
             oldComment = subscription.getSubComment();
+            Set();
 
+            // If the subscription is null, (empty), then leave the hints in the Edit Text
+        }   else {
+
+            subName = (EditText) findViewById(R.id.subName);
+            subPrice = (EditText) findViewById(R.id.subPrice);
+            subDate = (EditText) findViewById(R.id.subDate);
+            subComment = (EditText) findViewById(R.id.subComment);
         }
-        Set();
     }
 
-
+    // Method Sets the Edittext widgets to the matching subscription attributes
     public void Set() {
 
         subName = (EditText) findViewById(R.id.subName);
@@ -62,6 +81,10 @@ public class addSubActivity extends AppCompatActivity {
         subComment.setText(oldComment);
 
     }
+
+    // onClick method on the AddSub Activity first sets the text to the corresponding data
+    // then sets the subscription using getters and setters from the Subscription class
+    // Also handles instances of inadequate information.
 
     public void Add(View view) {
         EditText Name = (EditText) findViewById(R.id.subName);
@@ -84,12 +107,18 @@ public class addSubActivity extends AppCompatActivity {
             SubbookActivity.adapter.notifyDataSetChanged();
             SubbookActivity.saveInFile(addSubActivity.this);
             setContentView(R.layout.activity_subbook);
+
+            //Returns to parents activity (main)
             finish();
 
         }
 
     }
-
+    // attributed to onClick button (Edit)
+    // gets Intent from subAdapter which handles onItemClicks of the listview then opens
+    // the list item on Sub Activity. First deletes the subscription at its pos
+    // creates a new one then re-saves it in the list.
+    // then returns to main
     public void change(View view) {
         Intent editSubIntent = getIntent();
         int pos = editSubIntent.getIntExtra("sub_pos", 0);
@@ -115,6 +144,9 @@ public class addSubActivity extends AppCompatActivity {
 
 
     }
+    // Attributed to remove button in add_sub.xml
+    // Deletes the current selected subscrption which is passed through an Intent only from Edit Page
+    // saves an empty item then returns to main.
     public void Remove(View view){
         Intent removeSub = getIntent();
         int pos = removeSub.getIntExtra("sub_pos",0);
