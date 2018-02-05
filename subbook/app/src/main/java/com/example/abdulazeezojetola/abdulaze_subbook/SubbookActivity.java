@@ -26,15 +26,41 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
+/*
+* This is This main activity renamed Subbook;
+*
+* @author Abdulazeez Ojetola 1391012
+*
+* @see Subscription - Serializable class that holds information
+*
+* @see addSubActivity - Activity tied to the "new subscription" button, opened by Intent
+* on
+*
+* @see subAdapter - Custom Adapter made for each list item to automatically adapt
+*  to the information added
+*
+*
+* */
+
 public class SubbookActivity extends AppCompatActivity {
 
+    // create a filename to be used for saving the arraylist
     private static final String FILENAME = "subfile.sav";
+
+    //ListView on main page
     public  ListView subList;
     public static final String EXTRA_MESSAGE = "com.example.abdulazeezojetola.abdulaze_subbook.MESSAGE";
+
+    //ArrayList to hold multiple Subscription classes and an adapter for each Subscription
     public static ArrayList<Subscription> totalSubs;
     public static ArrayAdapter<Subscription> adapter;
+
+    //This is the total monthly price for all the subscriptions, calculated by method called
+    // TotalAmount()
     public TextView overallPrice;
 
+    // Shows the contents of this activity.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +69,6 @@ public class SubbookActivity extends AppCompatActivity {
 
         subList = (ListView) findViewById(R.id.subList);
 
-        //TotalAmount();
         subList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -53,14 +78,17 @@ public class SubbookActivity extends AppCompatActivity {
         });
     }
 
-    // loads from file
+    // loads each subscription from the list each time page Starts
+
     public void onStart() {
         super.onStart();
+
+        // Load from file
         loadFromFile();
         adapter = new subAdapter(this, totalSubs);
         subList.setAdapter(adapter);
-        int len = totalSubs.size();
-        Log.v("list length", String.valueOf(len));
+
+        //Show the total price using TotalAmount() method
         TotalAmount(totalSubs);
 
 
@@ -71,9 +99,16 @@ public class SubbookActivity extends AppCompatActivity {
 
 
     // When Add subscription button is tapped, open addSubActivity
+    // newSub() method onClick connected to the new Subscription button
 
     public void newSub(View view) {
+
+        //Initialize an empty subscription class per intent, pass it with the intent
+        // through to addSubAcitivity class to add it to the subscription list
+        // Then start an Activity for the new subscription
+        Subscription newSub = (Subscription) null;
         Intent newSubPage = new Intent(this, addSubActivity.class);
+        newSubPage.putExtra("sub", newSub);
         startActivity(newSubPage);
 
 
@@ -81,8 +116,12 @@ public class SubbookActivity extends AppCompatActivity {
     // function method taken from Lab 3
     private void loadFromFile() {
         try {
+            // Create an input stream catching input errors
+            // load from filename declared at the top of the activity
+
             FileInputStream inputFile = openFileInput(FILENAME);
             BufferedReader input = new BufferedReader(new InputStreamReader(inputFile));
+
             // Gson method taken from lab 3 and Taken https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2018-2-2
             // loads subs from json using gson
@@ -101,6 +140,8 @@ public class SubbookActivity extends AppCompatActivity {
     // function taken from lab 3, saves all subscriptions in the file to be used every time addSubActivity calls it
     public static void saveInFile(Context context) {
         try {
+            //declares output streams to direct to the filename
+            // Called to use in AddSubActivity to be saved onClick with Add button
             FileOutputStream outputFile = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(outputFile));
 
@@ -115,21 +156,25 @@ public class SubbookActivity extends AppCompatActivity {
         }
 
     }
-
+    // method used to index the subscription list and add the subscription prices together
+    // to display on the page
     public void TotalAmount(ArrayList<Subscription> totalSubs){
-
+        //get size using .size() method and index to length-1
         double total = 0.0;
         int length = totalSubs.size();
         int len = (length-1);
-        Log.v("current Price", String.valueOf(totalSubs.get(len).getSubPrice()));
 
+        // if the list is not empty then continue with indexing and add all
+        // prices.
         if (length >0) {
-            for (int i = 0; i < length; i++){
-                total += totalSubs.get(i).getSubPrice();
+            for (int i = 0; i < len; i++){
 
+                total += totalSubs.get(i).getSubPrice();
             }
-            Log.v("new total", String.valueOf(total));
+            total += totalSubs.get(len).getSubPrice();
         }
+
+        // Set the Textview at the bottom of page to the total amount calculated
         overallPrice = (TextView) findViewById(R.id.overallAmount);
         overallPrice.setText(String.format("\t%.2f",total));
     }
