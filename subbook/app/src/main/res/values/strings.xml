@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">abdulaze-subbook</string>
+    <string name="subscriptions">SUBSCRIPTIONS</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="subscription_price">Subscription Price:</string>
+    <string name="ex_10_99">Ex: 10.99</string>
+    <string name="subscription_name">Subscription Name:</string>
+    <string name="enter_comment">Enter Comment:</string>
+    <string name="optional">(Optional)</string>
+    <string name="add_a_subscription">ADD A SUBSCRIPTION</string>
+    <string name="ex_itunes">Ex: iTunes</string>
+    <string name="addButton">ADD</string>
+    <string name="new_subscription">NEW SUBSCRIPTION</string>
+    <string name="subscription_price_cad">Subscription Price (CAD)</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
